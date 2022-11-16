@@ -1,17 +1,25 @@
-import {  SET_VALUE } from "../actions/app";
+import {  CHANGE_STATUS, INCREASE_PROPOSAL_COUNT} from "../actions/app";
 
 export const initialState = {
-    value:666
+    status:"Registering voters",
+    proposalCount:3
 };
 
 
 const appReducer = (state = initialState,action={}) =>{
     switch(action.type){
-        case SET_VALUE:{
+        case CHANGE_STATUS:{
             return {
                 ...state,
-                value:action.payload
+                status:action.payload
             }
+        }
+        case INCREASE_PROPOSAL_COUNT:{
+            return {
+                ...state,
+                proposalCount:action.payload
+            }
+
         }
         default:
             return state;

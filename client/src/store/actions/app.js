@@ -1,6 +1,12 @@
-export const SET_VALUE = 'SET_VALUE';
+export const CHANGE_STATUS = 'CHANGE_STATUS';
+export const INCREASE_PROPOSAL_COUNT = 'INCREASE_PROPOSAL_COUNT';
 
-export const setValue = (payload) => ({
-  type: SET_VALUE,
+export const increaseProposalCount = (payload) => ({
+  type: INCREASE_PROPOSAL_COUNT,
+  payload
+});
+
+export const changeStatus = (payload) => ({
+  type: CHANGE_STATUS,
   payload
 });
