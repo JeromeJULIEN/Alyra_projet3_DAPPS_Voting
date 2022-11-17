@@ -1,30 +1,35 @@
 import React from 'react'
+import { useEffect } from 'react';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import Web3 from 'web3';
 
 
 const ConnectBtn = () => {
-    const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545")
-
     const[connectedAddress,setConnectedAddress] = useState("");
     const [isConnected, setIsConnected] = useState(false);
+    const accounts = useSelector(state => state.web3.accounts);
 
+    
     const formatETHAddress = (s, size) =>{;
         var first = s.slice(0, size + 1);
         var last = s.slice(-size);
         return first + "..." + last;
     }
-
+    
     const connexion = async() => {
-        const addr = await web3.eth.requestAccounts()
-        setConnectedAddress(formatETHAddress(addr.toString(),4));
+        setConnectedAddress(formatETHAddress(accounts[0],4));
         setIsConnected(true);
     }
-
+    
     const disconnexion = () =>{
         setConnectedAddress("");
         setIsConnected(false);
     }
+    
+    useEffect(()=> {
+        disconnexion()
+    },[accounts])
 
     return (
         <>

@@ -80,15 +80,16 @@ const Main = () => {
         await contract.methods.tallyVotes().call({from : accounts[0]});
         await contract.methods.tallyVotes().send({from : accounts[0]});
         const newStatus = await contract.methods.workflowStatus().call({from : accounts[0]});
-        if(newStatus === "4") {
+        if(newStatus === "5") {
             // console.log("road to dispatch");
-            dispatch(changeStatus("Voting session finished"));
+            dispatch(changeStatus("tally votes"));
         } else {
             alert ("unexpected issue")
         }
         const winningProposalId = await contract.methods.winningProposalID().call({from : accounts[0]});
         const winningProposal = await contract.methods.getOneProposal(winningProposalId).call({from : accounts[0]});
-        console.log("winning prop==>", winningProposal);
+        console.log("winning prop==>", winningProposal.description);
+        alert(`and the winner is ${winningProposal.description}`)
     }
 
     const restartSession = async() =>{
@@ -101,6 +102,7 @@ const Main = () => {
     
     const addVoter = async() =>{
         await contract.methods.addVoter(address).send({from : accounts[0]});
+        setAddress("");
     }
 
     

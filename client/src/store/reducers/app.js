@@ -1,6 +1,7 @@
 import {  CHANGE_STATUS, INCREASE_PROPOSAL_COUNT} from "../actions/app";
 
 export const initialState = {
+    login : false,
     status:"Registering voters",
     proposalCount:3
 };
