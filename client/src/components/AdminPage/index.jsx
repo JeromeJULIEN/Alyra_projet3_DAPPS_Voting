@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { changeStatus } from '../../store/actions/app';
+import { addProposal, addVote, addVoterToStore, changeStatus, deleteProposal, deleteVoters } from '../../store/actions/app';
 import './styles.scss';
 
 const AdminPage = () => {
@@ -10,8 +10,11 @@ const AdminPage = () => {
     const contract = useSelector(state => state.web3.contract);
     const accounts = useSelector(state => state.web3.accounts)
     const status = useSelector(state => state.app.status)
+    const proposalCount = useSelector(state => state.app.proposalCount)
+    const voters = useSelector(state => state.app.voters)
 
     const [address,setAddress] = useState("");
+    const [statusText,setStatusText] = useState();
     
     //! :::: JS FUNCTIONS ::::
     const handleChange = (event) => {
@@ -25,7 +28,13 @@ const AdminPage = () => {
         const newStatus = await contract.methods.workflowStatus().call({from : accounts[0]});
         if(newStatus === "1") {
             // console.log("road to dispatch");
-            dispatch(changeStatus("Start proposal registering"));
+            dispatch(changeStatus(1));
+            dispatch(deleteProposal());
+            for(let i=0;i<proposalCount;i++){
+                const proposal = await contract.methods.getOneProposal(i).call({from : accounts[0]})
+                console.log("proposal i =>", proposal)
+                dispatch(addProposal(proposal))
+            }
         } else {
             alert ("unexpected issue")
         }
@@ -37,7 +46,7 @@ const AdminPage = () => {
         const newStatus = await contract.methods.workflowStatus().call({from : accounts[0]});
         if(newStatus === "2") {
             // console.log("road to dispatch");
-            dispatch(changeStatus("End proposal registering"));
+            dispatch(changeStatus(2));
         } else {
             alert ("unexpected issue")
         }
@@ -49,7 +58,7 @@ const AdminPage = () => {
         const newStatus = await contract.methods.workflowStatus().call({from : accounts[0]});
         if(newStatus === "3") {
             // console.log("road to dispatch");
-            dispatch(changeStatus("Start voting"));
+            dispatch(changeStatus(3));
         } else {
             alert ("unexpected issue")
         }
@@ -62,7 +71,7 @@ const AdminPage = () => {
         const newStatus = await contract.methods.workflowStatus().call({from : accounts[0]});
         if(newStatus === "4") {
             // console.log("road to dispatch");
-            dispatch(changeStatus("Voting session finished"));
+            dispatch(changeStatus(4));
         } else {
             alert ("unexpected issue")
         }
@@ -75,7 +84,7 @@ const AdminPage = () => {
         const newStatus = await contract.methods.workflowStatus().call({from : accounts[0]});
         if(newStatus === "5") {
             // console.log("road to dispatch");
-            dispatch(changeStatus("tally votes"));
+            dispatch(changeStatus(5));
         } else {
             alert ("unexpected issue")
         }
@@ -87,7 +96,7 @@ const AdminPage = () => {
 
     const restartSession = async() =>{
         await contract.methods.restartSession().send({from : accounts[0]});
-        dispatch(changeStatus("Registering voters"));
+        dispatch(changeStatus(0));
     }
 
 
@@ -95,17 +104,20 @@ const AdminPage = () => {
     const [voterCount, setVoterCount] = useState(0)
     const addVoter = async() =>{
         await contract.methods.addVoter(address).send({from : accounts[0]});
+        dispatch(addVoterToStore(address));
         setAddress("");
         setVoterCount(voterCount+1)
     }
 
 
     //! :::: EVENTS MANAGEMENT ::::
+    //! VOTERS
     const [voterRegisteredEvent,setVoterRegisteredEvent] = useState([]);
 
     useEffect(()=> {
         if(contract !== null){
             (async () => {
+                // VOTER REGISTRATION INFORMATION
                 let voterRegisteredEvent = await contract.getPastEvents('VoterRegistered',{
                     fromBlock : 0,
                     toBlock:'latest'
@@ -115,7 +127,19 @@ const AdminPage = () => {
                     oldVoterRegisteredEventsArray.push(event.returnValues.voterAddress);
                 });
                 setVoterRegisteredEvent(oldVoterRegisteredEventsArray);
-                console.log("old events array =>", oldVoterRegisteredEventsArray);
+                dispatch(deleteVoters())
+                oldVoterRegisteredEventsArray.map(voter => dispatch(addVoterToStore(voter)))
+
+                // VOTER VOTING INFORMATION
+                let votingEvent = await contract.getPastEvents('Voted',{
+                    fromBlock:0,
+                    toBlock:'latest'
+                });
+                let oldVotingEventsArray=[];
+                votingEvent.forEach(event => {
+                    oldVotingEventsArray.push(event.returnValues)
+                    dispatch(addVote(event.returnValues.voter,event.returnValues.proposalId))
+                })
             })();
 
         }
@@ -126,7 +150,26 @@ const AdminPage = () => {
         var last = s.slice(-size);
         return first + "..." + last;
     }
+
+    //!STATUS
+    useEffect(()=> {
+        if(contract !== null){
+            (async () => {
+                let statusRegisteredEvent = await contract.getPastEvents('WorkflowStatusChange',{
+                    fromBlock : 0,
+                    toBlock:'latest'
+                });
+                let oldStatusRegisteredEventsArray=[];
+                statusRegisteredEvent.forEach(event => {
+                    oldStatusRegisteredEventsArray.push(event.returnValues.newStatus);
+                });
+                oldStatusRegisteredEventsArray.map(status => dispatch(changeStatus(status)))
+            })();
+
+        }
+    },[contract])
   
+
 
 
   return (
@@ -138,15 +181,23 @@ const AdminPage = () => {
             <div className="status">
                 <div className="title">Process management</div>
                 <div className="status__current">
-                    Current process step : <strong>{status}</strong> 
+                    Current process step :  
+                    {status == "0" && <strong> Registering voters</strong>}
+                    {status == "1" && <strong> Proposal registering open</strong>}
+                    {status == "2" && <strong> Proposal registering close</strong>}
+                    {status == "3" && <strong> Voting session open</strong>}
+                    {status == "4" && <strong> Voting session close</strong>}
+                    {status == "5" && <strong> Voting tallied</strong>}
+
+
                 </div>
                 <div className="status__switch">
-                    {status === "Registering voters" && <button onClick={startProposalsRegistering}>Start proposals registering</button>}
-                    {status === "Start proposal registering" && <button onClick={endProposalsRegistering}>End proposal registering</button>}
-                    {status === "End proposal registering" && <button onClick={startVoting}>Start voting</button>}
-                    {status === "Start voting" &&<button onClick={endVotingSession}>End voting session</button>}
-                    {status === "Voting session finished" && <button onClick={tallyVotes}>Tally vote</button>}
-                    <button onClick={restartSession}>Restart session</button>
+                    {status == "0" && <button onClick={startProposalsRegistering}>Start proposals registering</button>}
+                    {status == "1" && <button onClick={endProposalsRegistering}>End proposal registering</button>}
+                    {status == "2" && <button onClick={startVoting}>Start voting</button>}
+                    {status == "3" &&<button onClick={endVotingSession}>End voting session</button>}
+                    {status == "4" && <button onClick={tallyVotes}>Tally vote</button>}
+                    <button onClick={restartSession}>Restart process</button>
                 </div>
             </div>
             <div className="voter">
@@ -159,8 +210,11 @@ const AdminPage = () => {
                 <div className="voter__registered">
                     <p>Registered voters :</p>
 
-                    {voterRegisteredEvent.map(voter => 
-                        <p>{formatETHAddress(voter,4)}</p>
+                    {voters.map(voter => 
+                    <>
+                        <p>{formatETHAddress(voter.address,4)}</p>
+                        {voter.hasVoted ?(<><p>has voted</p><p>{voter.proposalVoted}</p></>):(<p>not voted</p> )}
+                    </>
                     )}
                 </div>
             </div>

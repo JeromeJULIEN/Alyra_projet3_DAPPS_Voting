@@ -44,7 +44,7 @@ const Main = () => {
     return (
         <div>
             
-        {status !== "Registering voters" ? (
+        {status != 0 ? (
             <Voting/>
 
         ) :(<p className='waitMessage'>Please wait for the administrator to start the process</p>)
