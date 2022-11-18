@@ -211,10 +211,10 @@ const AdminPage = () => {
                     <p>Registered voters :</p>
 
                     {voters.map(voter => 
-                    <>
-                        <p>{formatETHAddress(voter.address,4)}</p>
-                        {voter.hasVoted ?(<><p>has voted</p><p>{voter.proposalVoted}</p></>):(<p>not voted</p> )}
-                    </>
+                    <div className='voter__registered__item'>
+                        <p className='tag tag--address'>{formatETHAddress(voter.address,4)}</p>
+                        {voter.hasVoted ?(<><p className='tag tag--hasVoted'>has voted</p><p className='tag tag--id'> proposal {voter.proposalVoted}</p></>):(<p className='tag tag--notVoted'>not voted</p> )}
+                    </div>
                     )}
                 </div>
             </div>

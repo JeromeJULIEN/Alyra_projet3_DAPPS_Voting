@@ -1,6 +1,9 @@
 .App {
   text-align: center;
   margin: .5rem;
+  background-color: black;
+  color: rgb(215, 215, 215);
+  height: 100vh;
 }
 
 .App-logo {
@@ -45,4 +48,6 @@
   padding: 3rem;
   margin: 1rem auto;
   width: 50vw;
+  font-weight: bold;
+  font-size: 1.2rem;
 }

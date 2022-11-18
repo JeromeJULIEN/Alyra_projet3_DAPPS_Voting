@@ -2,6 +2,7 @@
     display: flex;
     align-content: center;
     margin: 2rem;
+    color: black;
 }
 
 .welcome {
@@ -10,9 +11,10 @@
 }
 
 button {
-    border-radius: .5rem;
+    border-radius: 1rem;
     margin: .25rem;
     height: 2rem;
+    color: black;
 }
 
 .title {
@@ -50,7 +52,38 @@ button {
 
     input {
         height: 2rem;
-        border-radius: .5rem;
+        border-radius: 1rem;
         border: none;
+    }
+
+    &__registered {
+        display: flex;
+        flex-direction: column;
+
+        &__item {
+            display: flex;
+            justify-content: space-around;
+            align-items: baseline;
+
+            .tag {
+                background-color: white;
+                border-radius: .7rem;
+                height: 1.4rem;
+                padding: 0 .5rem;
+                font-weight: bold;
+            }
+
+            .tag--hasVoted {
+                background-color: green;
+                color: white;
+            }
+
+            .tag--id {
+                background-color: grey;
+                color: white;
+            }
+
+
+        }
     }
 }

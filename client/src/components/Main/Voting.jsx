@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addVote, increaseProposalCount } from '../../store/actions/app';
+import { addProposal, addVote, increaseProposalCount } from '../../store/actions/app';
 import './styles.scss';
 
 
@@ -22,12 +22,13 @@ const Voting = () => {
         console.log("newProposal =>", event.target.value);
     }
 
-    const addProposal = async() => {
+    const sendNewProposal = async() => {
         const value = newProposal
         console.log("newProposal value =>", value);
         await contract.methods.addProposal(value).send({from:accounts[0]})
         setNewProposal("");
-        dispatch(increaseProposalCount(proposalCount + 1))
+        dispatch(increaseProposalCount(proposalCount + 1));
+        dispatch(addProposal(value));
     }
 
     const setVote = async(event) =>{
@@ -38,27 +39,25 @@ const Voting = () => {
 
 
     return (
-        <div>
-            <p>Vote for the best crypto scenario, category : BEST DISASTER</p>
-            <p>The nominees are :</p>
-            <p>
+        <div className='voting'>
+            <div className="voting__title">
+                <p>Vote for the best crypto scenario, category : <strong>BEST DISASTER</strong> </p>
+                <p>The nominees are :</p>
+            </div>
+            
+            <div className="voting__proposal" >
                 {proposalList.map((proposal,index) => (
-                    <div className="proposal" key={index}>
-                        <div className='proposal__item'>
-                            <p>{proposal.description}</p>
-                            {status == "3" ? 
-                            <>
-                            <button value={index} onClick={setVote}>Vote</button>
-                            </> : 
-                            <></>}
+                        <div className='voting__proposal__item' key={index}>
+                            <p>{proposal.description[0]}</p>
+                            {status == "3" && <button className='voting__proposal__button' value={index} onClick={setVote}>Vote</button>}
                         </div>
-                    </div>
                 ))}
-            </p>
+            </div>
+            
             {status == "1" && 
-            <div>
-                <input type="text" placeholder='add a new proposal' value={newProposal} onChange={handleChange}/>
-                <button onClick={addProposal}>Add proposal</button>
+            <div className='addProposal'>
+                <input className='addProposal__input' type="text" placeholder='add a new proposal' value={newProposal} onChange={handleChange}/>
+                <button className='addProposal__button' onClick={sendNewProposal}>Add proposal</button>
             </div>
             }
             

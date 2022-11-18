@@ -71,18 +71,6 @@ function App() {
         events.forEach(e => window.ethereum.removeListener(e, handleChange));
       };
     }, [init, artifact]);
-
-    useEffect(() => {
-      (async() => {
-        dispatch(deleteProposal());
-              for(let i=0;i<proposalCount;i++){
-                  const proposal = await contract.methods.getOneProposal(i).call({from : accounts[0]})
-                  console.log("proposal i =>", proposal)
-                  dispatch(addProposal(proposal))
-              }
-
-      })()
-    })
   
 
   return (
@@ -99,7 +87,7 @@ function App() {
         </>
       
       ):(
-        <p className='connectMessage'>please connect your wallet</p>
+        <p className='connectMessage'>connect your wallet</p>
       )}
       <Footer/>
      

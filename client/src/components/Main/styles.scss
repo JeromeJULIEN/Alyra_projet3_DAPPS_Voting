@@ -24,3 +24,40 @@
     margin: 1rem auto;
     width: 50vw;
 }
+
+.voting {
+    font-size: 1.1rem;
+    margin: 1rem;
+
+    &__proposal {
+        display: flex;
+        flex-direction: column;
+        margin: 1rem;
+        align-items: center;
+
+        &__item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 1rem;
+            padding-left: 1rem;
+            background-color: lightgray;
+            width: 60%;
+            color: black;
+            height: 2rem;
+            border-radius: 1rem;
+        }
+
+        &__button {
+            height: 1.6rem;
+            border-radius: .8rem;
+            width: 80px;
+        }
+    }
+}
+
+.addProposal__input {
+    height: 2rem;
+    border-radius: 1rem;
+    border: none;
+}
