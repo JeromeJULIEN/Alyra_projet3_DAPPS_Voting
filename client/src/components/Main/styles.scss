@@ -1,3 +1,5 @@
+@import "rsuite/dist/rsuite.css";
+
 .proposal {
     display: flex;
     flex-direction: column;
@@ -13,4 +15,12 @@
             margin: 0 2rem;
         }
     }
+}
+
+.waitMessage {
+    background-color: lightgray;
+    border-radius: 1rem;
+    padding: 3rem;
+    margin: 1rem auto;
+    width: 50vw;
 }

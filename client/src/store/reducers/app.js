@@ -1,7 +1,7 @@
-import {  CHANGE_STATUS, INCREASE_PROPOSAL_COUNT} from "../actions/app";
+import {  CHANGE_STATUS, INCREASE_PROPOSAL_COUNT, LOGIN} from "../actions/app";
 
 export const initialState = {
-    login : false,
+    isLogged : false,
     status:"Registering voters",
     proposalCount:3
 };
@@ -21,6 +21,12 @@ const appReducer = (state = initialState,action={}) =>{
                 proposalCount:action.payload
             }
 
+        }
+        case LOGIN:{
+            return {
+                ...state,
+                isLogged : action.payload
+            }
         }
         default:
             return state;

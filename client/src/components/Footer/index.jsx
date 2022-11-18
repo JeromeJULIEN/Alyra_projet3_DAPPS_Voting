@@ -1,8 +1,9 @@
 import React from 'react'
+import './styles.scss';
 
 const Footer = () => {
   return (
-    <div>@Alyra Rinkeby 2022 / https://github.com/JeromeJULIEN</div>
+    <div className='footer'>@Alyra Rinkeby 2022 - https://github.com/JeromeJULIEN</div>
   )
 }
 

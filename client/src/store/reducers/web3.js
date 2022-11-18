@@ -5,7 +5,8 @@ const initialState = {
     web3: null,
     accounts: null,
     networkID: null,
-    contract: null
+    contract: null,
+    owner:null
   };
 
 const web3Reducer = (state = initialState,action={})=>{
@@ -17,7 +18,8 @@ const web3Reducer = (state = initialState,action={})=>{
                 web3:action.web3,
                 accounts: action.accounts,
                 networkID: action.networkID,
-                contract:action.contract
+                contract:action.contract,
+                owner:action.owner
             }
         }
         default :

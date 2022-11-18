@@ -92,10 +92,7 @@ const Voting = () => {
                 <input type="text" placeholder='add a new proposal' value={newProposal} onChange={handleChange}/>
                 <button onClick={addProposal}>Add proposal</button>
             </div>
-            <div>
-                <input type="text" placeholder='proposal Id' value={proposalId} onChange={handleChangeId}/>
-                <button onClick={getOneProposal}>Get proposal</button>
-            </div>
+            
             
         </div>
     )

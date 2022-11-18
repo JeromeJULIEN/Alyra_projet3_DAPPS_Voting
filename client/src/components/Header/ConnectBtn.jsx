@@ -1,15 +1,19 @@
 import React from 'react'
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import Web3 from 'web3';
+import { login } from '../../store/actions/app';
 
 
 const ConnectBtn = () => {
     const[connectedAddress,setConnectedAddress] = useState("");
-    const [isConnected, setIsConnected] = useState(false);
+    const isLogged = useSelector(state => state.app.isLogged);
     const accounts = useSelector(state => state.web3.accounts);
-
+    const owner = useSelector(state => state.web3.owner);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     
     const formatETHAddress = (s, size) =>{;
         var first = s.slice(0, size + 1);
@@ -19,12 +23,18 @@ const ConnectBtn = () => {
     
     const connexion = async() => {
         setConnectedAddress(formatETHAddress(accounts[0],4));
-        setIsConnected(true);
+        dispatch(login(true));
+        if(accounts[0] === owner){
+            navigate("/admin");
+        } else {
+            navigate("/");
+        }
     }
     
     const disconnexion = () =>{
         setConnectedAddress("");
-        setIsConnected(false);
+        dispatch(login(false));
+
     }
     
     useEffect(()=> {
@@ -33,13 +43,13 @@ const ConnectBtn = () => {
 
     return (
         <>
-            {isConnected ? (
+            {isLogged ? (
                 <>
                     <button onClick={disconnexion}>Disconnect</button>
                     <p>{connectedAddress}</p> 
                 </>
             ) :(
-                <button onClick={connexion}>Connect your wallet</button>
+                <button onClick={connexion}>Connect wallet</button>
             )}
             
         </>
