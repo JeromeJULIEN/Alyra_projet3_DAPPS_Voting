@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { addProposal, addVote, addVoterToStore, changeStatus, deleteProposal, deleteVoters } from '../../store/actions/app';
+import { addProposal, addVote, addVoterToStore, addWinningProposal, changeStatus, deleteProposal, deleteVoters } from '../../store/actions/app';
 import './styles.scss';
 
 const AdminPage = () => {
@@ -12,6 +12,7 @@ const AdminPage = () => {
     const status = useSelector(state => state.app.status)
     const proposalCount = useSelector(state => state.app.proposalCount)
     const voters = useSelector(state => state.app.voters)
+    const winningProposal = useSelector(state => state.app.winningProposal)
 
     const [address,setAddress] = useState("");
     const [statusText,setStatusText] = useState();
@@ -90,8 +91,7 @@ const AdminPage = () => {
         }
         const winningProposalId = await contract.methods.winningProposalID().call({from : accounts[0]});
         const winningProposal = await contract.methods.getOneProposal(winningProposalId).call({from : accounts[0]});
-        console.log("winning prop==>", winningProposal.description);
-        alert(`and the winner is ${winningProposal.description}`)
+        dispatch(addWinningProposal(winningProposal.description))
     }
 
     const restartSession = async() =>{
@@ -219,6 +219,11 @@ const AdminPage = () => {
                 </div>
             </div>
         </div>
+        {status == 5 && 
+        <div className="winningProposal">
+            <div>The winner is {winningProposal}</div>
+            <div>We should consider hire him at the F.E.D...</div>
+        </div>}
     </>
     
   )

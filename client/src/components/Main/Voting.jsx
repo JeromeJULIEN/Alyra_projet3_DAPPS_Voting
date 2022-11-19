@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addProposal, addVote, increaseProposalCount } from '../../store/actions/app';
 import './styles.scss';
@@ -37,6 +38,26 @@ const Voting = () => {
         dispatch(addVote(accounts[0],event.target.value))
     }
 
+    //! GET THE VOTED PROPOSAL BY ADDRESS
+    const voters = useSelector(state => state.app.voters)
+    const getVotedProposal = () =>{
+        const activeVoter = voters.filter(voter => voter.address == accounts[0]);
+        console.log("active voter =>", activeVoter)
+        if(activeVoter[0].hasVoted){
+            console.log("has voted");
+            return(activeVoter[0].proposalVoted)
+        } else {
+            return(console.log("active voter hasn't voted yet"));
+        }
+    }
+    
+    const votedProposal = getVotedProposal()
+
+    const winningProposal = useSelector(state => state.app.winningProposal)
+  
+    
+
+
 
     return (
         <div className='voting'>
@@ -44,15 +65,17 @@ const Voting = () => {
                 <p>Vote for the best crypto scenario, category : <strong>BEST DISASTER</strong> </p>
                 <p>The nominees are :</p>
             </div>
-            
+            {status != 5 && 
             <div className="voting__proposal" >
                 {proposalList.map((proposal,index) => (
                         <div className='voting__proposal__item' key={index}>
                             <p>{proposal.description[0]}</p>
-                            {status == "3" && <button className='voting__proposal__button' value={index} onClick={setVote}>Vote</button>}
+                            {status == "3" && index != votedProposal && <button className='voting__proposal__button' value={index} onClick={setVote}>Vote</button>}
+                            {status == "3" && index == votedProposal && <button className='voting__proposal__voted' value={index} onClick={setVote}>Voted</button>}
                         </div>
                 ))}
             </div>
+            }
             
             {status == "1" && 
             <div className='addProposal'>
@@ -60,6 +83,7 @@ const Voting = () => {
                 <button className='addProposal__button' onClick={sendNewProposal}>Add proposal</button>
             </div>
             }
+            {status =="5" && <div className='winningMessage'>And the winner is {winningProposal} </div>}
             
             
         </div>

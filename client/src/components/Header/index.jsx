@@ -9,7 +9,7 @@ const Header = () => {
       <div className="connectButton">
         <ConnectBtn/>
       </div>
-      <div className='mainTitle'>CRYPTO NIGTHMARE SCENARIO AWARD</div>
+      <div className='mainTitle'>CRYPTO NIGTHMARE SCENARIO AWARD 2022 !!! </div>
     </>
     )
 }

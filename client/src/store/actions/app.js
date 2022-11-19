@@ -6,6 +6,12 @@ export const DELETE_PROPOSALS = 'DELETE_PROPOSALS';
 export const ADD_VOTER_TO_STORE = 'ADD_VOTER_TO_STORE';
 export const ADD_VOTE = 'ADD_VOTE';
 export const DELETE_VOTERS = 'DELETE_VOTERS';
+export const ADD_WINNING_PROPOSAL = 'ADD_WINNING_PROPOSAL';
+
+export const addWinningProposal = (payload) => ({
+  type: ADD_WINNING_PROPOSAL,
+  payload
+});
 
 export const deleteVoters = () => ({
   type: DELETE_VOTERS

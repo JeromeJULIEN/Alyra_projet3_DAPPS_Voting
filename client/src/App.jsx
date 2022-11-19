@@ -36,14 +36,7 @@ function App() {
             console.error(err);
           }
           dispatch(initWeb3(artifact, web3, accounts, networkID, contract,owner));
-          // dispatch(deleteProposal());
-          // for(let i=0;i<proposalCount;i++){
-          //   console.log("entrée dans boucle proposal avec count =", proposalCount);
-          //     const proposal = await contract.methods.getOneProposal(i).call({from : accounts[0]})
-          //     console.log("proposal i =>", proposal.description)
-          //     dispatch(addProposal(proposal.description))
-          // }
-          // ;
+
         }
       }, []);
   

@@ -83,7 +83,25 @@ button {
                 color: white;
             }
 
+            .tag--notVoted {
+                background-color: orange;
+            }
+
 
         }
     }
+}
+
+.winningProposal {
+    background-color: lightgray;
+    margin: 2rem;
+    height: 5rem;
+    border-radius: 1rem;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: bold;
 }
