@@ -1,7 +1,8 @@
 .connectButton {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
+    margin: .5rem;
 
 }
 
@@ -20,4 +21,14 @@ button {
     height: 2rem;
     border-radius: 1rem;
 
+}
+
+input {
+    border-radius: 1rem;
+    border: none;
+}
+
+.connectBtn {
+    display: flex;
+    align-items: center;
 }

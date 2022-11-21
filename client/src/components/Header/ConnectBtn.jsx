@@ -44,10 +44,10 @@ const ConnectBtn = () => {
     return (
         <>
             {isLogged ? (
-                <>
+                <div className='connectBtn'>
                     <button onClick={disconnexion}>Disconnect</button>
                     <p>{connectedAddress}</p> 
-                </>
+                </div>
             ) :(
                 <button onClick={connexion}>Connect wallet</button>
             )}

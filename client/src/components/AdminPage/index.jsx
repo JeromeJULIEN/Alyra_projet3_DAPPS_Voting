@@ -32,7 +32,7 @@ const AdminPage = () => {
             dispatch(deleteProposal());
             for(let i=0;i<proposalCount;i++){
                 const proposal = await contract.methods.getOneProposal(i).call({from : accounts[0]})
-                // console.log("proposal i =>", proposal)
+                console.log("proposal i =>", proposal)
                 dispatch(addProposal(proposal))
             }
         } else {

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addProposal, addVote, increaseProposalCount } from '../../store/actions/app';
 import './styles.scss';
@@ -20,16 +19,18 @@ const Voting = () => {
 
     const handleChange = (event) => {
         setNewProposal(event.target.value)
-        // console.log("newProposal =>", event.target.value);
+        console.log("newProposal =>", event.target.value);
     }
 
     const sendNewProposal = async() => {
         const value = newProposal
-        // console.log("newProposal value =>", value);
+        console.log("newProposal value =>", value);
         await contract.methods.addProposal(value).send({from:accounts[0]})
         setNewProposal("");
+        const proposal = await contract.methods.getOneProposal(proposalCount).call({from:accounts[0]})
+        console.log("proposal after add to contract", proposal);
+        dispatch(addProposal(proposal));
         dispatch(increaseProposalCount(proposalCount + 1));
-        dispatch(addProposal(value));
     }
 
     const setVote = async(event) =>{

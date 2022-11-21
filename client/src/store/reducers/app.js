@@ -32,6 +32,7 @@ const appReducer = (state = initialState,action={}) =>{
             }
         }
         case ADD_PROPOSAL:{
+            console.log("proposal from reducer =>", action.payload);
             return {
                 ...state,
                 proposalList:[
