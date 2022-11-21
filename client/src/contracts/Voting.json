@@ -20118,6 +20118,12 @@
     "version": "0.8.17+commit.8df45f5f.Emscripten.clang"
   },
   "networks": {
+    "5": {
+      "events": {},
+      "links": {},
+      "address": "0x24E28A73a080A66e497C20826887d4BDeadfCFF6",
+      "transactionHash": "0x25365bc62b8b34d3b590b05958271ce192f39b180080001d19e467631fba78dd"
+    },
     "5777": {
       "events": {
         "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": {
@@ -20710,7 +20716,7 @@
     }
   },
   "schemaVersion": "3.4.10",
-  "updatedAt": "2022-11-21T10:39:42.910Z",
+  "updatedAt": "2022-11-21T10:58:21.485Z",
   "networkType": "ethereum",
   "devdoc": {
     "author": "Jerome JULIEN (almost :) )",
