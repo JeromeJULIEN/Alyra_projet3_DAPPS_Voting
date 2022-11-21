@@ -1,0 +1,60 @@
+{
+    "events": {
+        "LogDepositReceived(address)": {
+            "notice": "event for the received() function"
+        },
+        "ProposalRegistered(uint256)": {
+            "notice": "Returns each new proposal registered"
+        },
+        "Voted(address,uint256)": {
+            "notice": "Returns each vote registered (voter + proposal voted)"
+        },
+        "VoterRegistered(address)": {
+            "notice": "Returns the address of each new voter registered"
+        },
+        "WorkflowStatusChange(uint8,uint8)": {
+            "notice": "Returns the old and the new workflow status"
+        }
+    },
+    "kind": "user",
+    "methods": {
+        "addProposal(string)": {
+            "notice": "add a new proposal sor the session. Only for registered voters"
+        },
+        "addVoter(address)": {
+            "notice": "add a new voter sor the session. Only for admin"
+        },
+        "endProposalsRegistering()": {
+            "notice": "status modifidation function. Stop the proposal registration"
+        },
+        "endVotingSession()": {
+            "notice": "status modifidation function. End the voting session"
+        },
+        "getOneProposal(uint256)": {
+            "notice": "function used to get a proposal"
+        },
+        "getVoter(address)": {
+            "notice": "function used to get a voter status"
+        },
+        "restartSession()": {
+            "notice": "funciton to aese the front end development. Non core function for the final DAPP"
+        },
+        "setVote(uint256)": {
+            "notice": "set the vote of a registered voter and update the winning proposal if needed"
+        },
+        "startProposalsRegistering()": {
+            "notice": "status modifidation function. Launch the proposal registration and init the pre registered proposal"
+        },
+        "startVotingSession()": {
+            "notice": "status modifidation function. Start the voting session"
+        },
+        "tallyVotes()": {
+            "notice": "status modifidation function. Tally the vote"
+        },
+        "winningProposalID()": {
+            "notice": "This uint allow to identify le winning proposal at the end of the process"
+        }
+    },
+    "notice": "This contract is a simple voting software. Admin can manage voters, proposals and voting session process. Voters can...vote !",
+    "version": 1
+}

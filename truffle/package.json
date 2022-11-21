@@ -13,6 +13,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@openzeppelin/contracts": "^4.8.0"
+    "@openzeppelin/contracts": "^4.8.0",
+    "solc": "^0.8.17"
+  },
+  "devDependencies": {
+    "@digix/doxity": "^0.5.2"
   }
 }

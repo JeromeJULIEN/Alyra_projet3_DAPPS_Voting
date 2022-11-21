@@ -20,12 +20,12 @@ const Voting = () => {
 
     const handleChange = (event) => {
         setNewProposal(event.target.value)
-        console.log("newProposal =>", event.target.value);
+        // console.log("newProposal =>", event.target.value);
     }
 
     const sendNewProposal = async() => {
         const value = newProposal
-        console.log("newProposal value =>", value);
+        // console.log("newProposal value =>", value);
         await contract.methods.addProposal(value).send({from:accounts[0]})
         setNewProposal("");
         dispatch(increaseProposalCount(proposalCount + 1));
@@ -42,12 +42,12 @@ const Voting = () => {
     const voters = useSelector(state => state.app.voters)
     const getVotedProposal = () =>{
         const activeVoter = voters.filter(voter => voter.address == accounts[0]);
-        console.log("active voter =>", activeVoter)
+        // console.log("active voter =>", activeVoter)
         if(activeVoter[0].hasVoted){
-            console.log("has voted");
+            // console.log("has voted");
             return(activeVoter[0].proposalVoted)
         } else {
-            return(console.log("active voter hasn't voted yet"));
+            // return(console.log("active voter hasn't voted yet"));
         }
     }
     

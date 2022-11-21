@@ -1,0 +1,88 @@
+{
+    "author": "Jerome JULIEN (almost :) )",
+    "details": "Multi voting session management is not yet implemented. COuld be fun",
+    "events": {
+        "LogDepositReceived(address)": {
+            "params": {
+                "_addr": "address of the sender"
+            }
+        },
+        "ProposalRegistered(uint256)": {
+            "params": {
+                "proposalId": "Id of the created proposal"
+            }
+        },
+        "Voted(address,uint256)": {
+            "params": {
+                "proposalId": "id the the voted proposal",
+                "voter": "address of the registered voter"
+            }
+        }
+    },
+    "kind": "dev",
+    "methods": {
+        "addProposal(string)": {
+            "details": "the function check the workflow status and if the proposal isn't empty before going forward",
+            "params": {
+                "_desc": "description of the proposal to add"
+            }
+        },
+        "addVoter(address)": {
+            "details": "the function check the workflow status and if the address is already registered before going forward",
+            "params": {
+                "_addr": "address of the voter to add"
+            }
+        },
+        "endProposalsRegistering()": {
+            "details": "the function check the actual workflow status before going forward"
+        },
+        "endVotingSession()": {
+            "details": "the function check the actual workflow status before going forward"
+        },
+        "getOneProposal(uint256)": {
+            "params": {
+                "_id": "id of the searched proposal"
+            },
+            "returns": {
+                "_0": "Proposal struct of the searched Proposal"
+            }
+        },
+        "getVoter(address)": {
+            "params": {
+                "_addr": "address of the searched voter"
+            },
+            "returns": {
+                "_0": "Voter struct of the searched voter"
+            }
+        },
+        "owner()": {
+            "details": "Returns the address of the current owner."
+        },
+        "renounceOwnership()": {
+            "details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner."
+        },
+        "restartSession()": {
+            "details": "this function just change the process status but didn't reset all parameters (voters, proposal). Could be a good upgrade"
+        },
+        "setVote(uint256)": {
+            "details": "the function check the workflow status, the existance of the proposal chosen and if the voter hasn't alreayd votedte winning propocal is updated in this function to prevent DDOS gas limit attack by usage of a loop in tallyVotes function",
+            "params": {
+                "_id": "id of the proposal to vote for"
+            }
+        },
+        "startProposalsRegistering()": {
+            "details": "the function check the actual workflow status before going forward"
+        },
+        "startVotingSession()": {
+            "details": "the function check the actual workflow status before going forward"
+        },
+        "tallyVotes()": {
+            "details": "the function check the actual workflow status before going forwardas winning proposal is updating at each vote, tallyvote just change the status"
+        },
+        "transferOwnership(address)": {
+            "details": "Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner."
+        }
+    },
+    "title": "Voting dapps",
+    "version": 1
+}

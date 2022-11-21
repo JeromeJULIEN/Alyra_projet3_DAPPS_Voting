@@ -15,7 +15,6 @@ const AdminPage = () => {
     const winningProposal = useSelector(state => state.app.winningProposal)
 
     const [address,setAddress] = useState("");
-    const [statusText,setStatusText] = useState();
     
     //! :::: JS FUNCTIONS ::::
     const handleChange = (event) => {
@@ -24,7 +23,7 @@ const AdminPage = () => {
 
     //! :::: SMART CONTRACT > STATUS CHANGE FUNCTIONS ::::
     const startProposalsRegistering = async() =>{
-        console.log("entrer dans startProposalRegistering");
+        // console.log("entrer dans startProposalRegistering");
         await contract.methods.startProposalsRegistering().send({from : accounts[0]});
         const newStatus = await contract.methods.workflowStatus().call({from : accounts[0]});
         if(newStatus === "1") {
@@ -33,7 +32,7 @@ const AdminPage = () => {
             dispatch(deleteProposal());
             for(let i=0;i<proposalCount;i++){
                 const proposal = await contract.methods.getOneProposal(i).call({from : accounts[0]})
-                console.log("proposal i =>", proposal)
+                // console.log("proposal i =>", proposal)
                 dispatch(addProposal(proposal))
             }
         } else {
@@ -42,7 +41,7 @@ const AdminPage = () => {
     }
 
     const endProposalsRegistering = async() =>{
-        console.log("entrer dans endProposalRegistering");
+        // console.log("entrer dans endProposalRegistering");
         await contract.methods.endProposalsRegistering().send({from : accounts[0]});
         const newStatus = await contract.methods.workflowStatus().call({from : accounts[0]});
         if(newStatus === "2") {
@@ -54,7 +53,7 @@ const AdminPage = () => {
     }
 
     const startVoting = async() =>{
-        console.log("entrer dans startVoting");
+        // console.log("entrer dans startVoting");
         await contract.methods.startVotingSession().send({from : accounts[0]});
         const newStatus = await contract.methods.workflowStatus().call({from : accounts[0]});
         if(newStatus === "3") {
@@ -66,7 +65,7 @@ const AdminPage = () => {
     }
 
     const endVotingSession = async() =>{
-        console.log("entrer dans endVotingSession");
+        // console.log("entrer dans endVotingSession");
         await contract.methods.endVotingSession().call({from : accounts[0]});
         await contract.methods.endVotingSession().send({from : accounts[0]});
         const newStatus = await contract.methods.workflowStatus().call({from : accounts[0]});
@@ -79,7 +78,7 @@ const AdminPage = () => {
     }
 
     const tallyVotes = async() =>{
-        console.log("entrer dans tallyVotes");
+        // console.log("entrer dans tallyVotes");
         await contract.methods.tallyVotes().call({from : accounts[0]});
         await contract.methods.tallyVotes().send({from : accounts[0]});
         const newStatus = await contract.methods.workflowStatus().call({from : accounts[0]});
