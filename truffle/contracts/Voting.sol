@@ -10,6 +10,7 @@ import "../node_modules/@openzeppelin/contracts/access/Ownable.sol";
 contract Voting is Ownable {
     /// @notice This uint allow to identify le winning proposal at the end of the process
     uint256 public winningProposalID;
+    uint256 voterCount;
 
     struct Voter {
         bool isRegistered;
@@ -101,6 +102,7 @@ contract Voting is Ownable {
         require(voters[_addr].isRegistered != true, "Already registered");
 
         voters[_addr].isRegistered = true;
+        voterCount++;
         emit VoterRegistered(_addr);
     }
 
@@ -241,6 +243,9 @@ contract Voting is Ownable {
     /// @dev this function just change the process status but didn't reset all parameters (voters, proposal). Could be a good upgrade
     function restartSession() external onlyOwner {
         workflowStatus = WorkflowStatus.RegisteringVoters;
+        for (uint256 i = 0; i < proposalsArray.length; i++) {
+            proposalsArray.pop();
+        }
         emit WorkflowStatusChange(
             WorkflowStatus.VotingSessionEnded,
             WorkflowStatus.RegisteringVoters

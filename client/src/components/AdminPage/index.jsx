@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { addProposal, addVote, addVoterToStore, addWinningProposal, changeStatus, deleteProposal, deleteVoters } from '../../store/actions/app';
+import { addProposal, addVote, addVoterToStore, addWinningProposal, changeStatus, deleteProposal, deleteVoters, increaseProposalCount } from '../../store/actions/app';
 import './styles.scss';
 
 const AdminPage = () => {
@@ -139,10 +139,14 @@ const AdminPage = () => {
                     oldVotingEventsArray.push(event.returnValues)
                     dispatch(addVote(event.returnValues.voter,event.returnValues.proposalId))
                 })
-            })();
+
+                
+
+            })()
+            };
 
         }
-    },[contract, voterCount])
+    ,[contract, voterCount])
 
     const formatETHAddress = (s, size) =>{;
         var first = s.slice(0, size + 1);
