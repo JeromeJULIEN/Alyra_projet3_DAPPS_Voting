@@ -1,4 +1,4 @@
-import { INIT_WEB3 } from "../actions/web3";
+import { INIT_WEB3, SET_BLOCK_NUMBER } from "../actions/web3";
 
 const initialState = {
     artifact: null,
@@ -6,7 +6,8 @@ const initialState = {
     accounts: null,
     networkID: null,
     contract: null,
-    owner:null
+    owner:null,
+    blockNumber:0
   };
 
 const web3Reducer = (state = initialState,action={})=>{
@@ -19,7 +20,14 @@ const web3Reducer = (state = initialState,action={})=>{
                 accounts: action.accounts,
                 networkID: action.networkID,
                 contract:action.contract,
-                owner:action.owner
+                owner:action.owner,
+                blockNumber:action.blockNumber
+            }
+        }
+        case SET_BLOCK_NUMBER:{
+            return {
+                ...state,
+                blockNumber:action.payload
             }
         }
         default :

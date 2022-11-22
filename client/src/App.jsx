@@ -25,6 +25,8 @@ function App() {
           const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
           const accounts = await web3.eth.requestAccounts();
           const networkID = await web3.eth.net.getId();
+          const blockNumber = await web3.eth.getBlockNumber()
+          console.log(blockNumber);
           const { abi } = artifact;
           let address, contract, owner;
           try {
@@ -35,7 +37,7 @@ function App() {
           } catch (err) {
             console.error(err);
           }
-          dispatch(initWeb3(artifact, web3, accounts, networkID, contract,owner));
+          dispatch(initWeb3(artifact, web3, accounts, networkID, contract,owner, blockNumber));
 
         }
       }, []);

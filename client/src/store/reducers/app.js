@@ -1,4 +1,4 @@
-import {  ADD_PROPOSAL, ADD_VOTE, ADD_VOTER_TO_STORE, ADD_WINNING_PROPOSAL, CHANGE_STATUS, DELETE_PROPOSALS, DELETE_VOTERS, INCREASE_PROPOSAL_COUNT, LOGIN} from "../actions/app";
+import {  ADD_PROPOSAL, ADD_VOTE, ADD_VOTER_TO_STORE, ADD_WINNING_PROPOSAL, CHANGE_STATUS, DELETE_PROPOSALS, DELETE_VOTERS, INCREASE_PROPOSAL_COUNT, LOGIN, RESTART_SESSION, RESTART_SESSION_STORE} from "../actions/app";
 
 export const initialState = {
     isLogged : false,
@@ -76,6 +76,11 @@ const appReducer = (state = initialState,action={}) =>{
             return{
                 ...state,
                 winningProposal:action.payload
+            }
+        }
+        case RESTART_SESSION_STORE:{
+            return{
+                initialState
             }
         }
         default:

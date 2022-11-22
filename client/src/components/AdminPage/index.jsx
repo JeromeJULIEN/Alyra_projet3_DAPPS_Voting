@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { addProposal, addVote, addVoterToStore, addWinningProposal, changeStatus, deleteProposal, deleteVoters } from '../../store/actions/app';
+import { addProposal, addVote, addVoterToStore, addWinningProposal, changeStatus, deleteProposal, deleteVoters, restartSessionStore } from '../../store/actions/app';
+import Web3 from 'web3';
 import './styles.scss';
+import { setBlockNumber } from '../../store/actions/web3';
 
 const AdminPage = () => {
 
+    const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
+   
     const dispatch = useDispatch();
     
     const contract = useSelector(state => state.web3.contract);
@@ -95,6 +99,9 @@ const AdminPage = () => {
 
     const restartSession = async() =>{
         await contract.methods.restartSession().send({from : accounts[0]});
+        const blockNumberOfLastStart = await web3.eth.getBlockNumber();
+        console.log("blocNumber =>", blockNumberOfLastStart);
+        dispatch(setBlockNumber(blockNumberOfLastStart));
         dispatch(changeStatus(0));
     }
 
@@ -112,13 +119,14 @@ const AdminPage = () => {
     //! :::: EVENTS MANAGEMENT ::::
     //! VOTERS
     const [voterRegisteredEvent,setVoterRegisteredEvent] = useState([]);
+    const blockNumberOfLastRestart = useSelector(state => state.web3.blockNumber)
 
     useEffect(()=> {
         if(contract !== null){
             (async () => {
                 // VOTER REGISTRATION INFORMATION
                 let voterRegisteredEvent = await contract.getPastEvents('VoterRegistered',{
-                    fromBlock : 0,
+                    fromBlock : blockNumberOfLastRestart,
                     toBlock:'latest'
                 });
                 let oldVoterRegisteredEventsArray=[];
@@ -131,7 +139,7 @@ const AdminPage = () => {
 
                 // VOTER VOTING INFORMATION
                 let votingEvent = await contract.getPastEvents('Voted',{
-                    fromBlock:0,
+                    fromBlock:blockNumberOfLastRestart,
                     toBlock:'latest'
                 });
                 let oldVotingEventsArray=[];
@@ -155,7 +163,7 @@ const AdminPage = () => {
         if(contract !== null){
             (async () => {
                 let statusRegisteredEvent = await contract.getPastEvents('WorkflowStatusChange',{
-                    fromBlock : 0,
+                    fromBlock : blockNumberOfLastRestart,
                     toBlock:'latest'
                 });
                 let oldStatusRegisteredEventsArray=[];

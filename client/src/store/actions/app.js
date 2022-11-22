@@ -7,6 +7,11 @@ export const ADD_VOTER_TO_STORE = 'ADD_VOTER_TO_STORE';
 export const ADD_VOTE = 'ADD_VOTE';
 export const DELETE_VOTERS = 'DELETE_VOTERS';
 export const ADD_WINNING_PROPOSAL = 'ADD_WINNING_PROPOSAL';
+export const RESTART_SESSION_STORE = 'RESTART_SESSION_STORE';
+
+export const restartSessionStore = () => ({
+  type: RESTART_SESSION_STORE
+});
 
 export const addWinningProposal = (payload) => ({
   type: ADD_WINNING_PROPOSAL,
